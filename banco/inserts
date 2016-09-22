@@ -1,0 +1,120 @@
+INSERT INTO estados (IdEstado, IdPais,Nome,Sigla) VALUES 
+ (1,'Acre','AC'),
+ (2,'Alagoas','AL'),
+ (3,'Amapá','AP'),
+ (4,'Amazonas','AM'),
+ (5,'Bahia','BA'),
+ (6,'Ceará','CE'),
+ (7,'Distrito Federal','DF'),
+ (8,'Espirito Santo','ES'),
+ (9,'Goiás','GO'),
+ (10,'Maranhão','MA'),
+ (11,'Mato Grosso','MT'),
+ (12,'Mato Grosso do Sul','MS'),
+ (13,'Minas Gerais','MG'),
+ (14,'Pará','PA'),
+ (15,'Paraíba','PB'),
+ (16,'Paraná','PR'),
+ (17,'Pernambuco','PE'),
+ (18,'Piauí','PI'),
+ (19,'Rio de Janeiro','RJ'),
+ (20,'Rio Grande do Norte','RN'),
+ (21,'Rio Grande do Sul','RS'),
+ (22,'Rondônia','RO'),
+ (23,'Roraima','RR'),
+ (24,'Santa Catarina','SC'),
+ (25,'São Paulo','SP'),
+ (26,'Sergipe','SE'),
+ (27,'Tocantins','TO');
+
+INSERT INTO cidades (IdCidade,Nome,IdEstado) VALUES 
+ (1,'São Paulo',25),
+ (2,'Rio de Janeiro',19),
+ (3,'Salvador',5),
+ (4,'Brasília',7),
+ (5,'Fortaleza',6),
+ (6,'Belo Horizonte',13),
+ (7,'Curitiba',16),
+ (8,'Manaus',4),
+ (9,'Recife',17),
+ (10,'Porto Alegre',21),
+ (11,'Belém',14),
+ (12,'Guarulhos',25),
+ (13,'Goiânia',9),
+ (14,'Campinas',25),
+ (15,'São Luis',10),
+ (16,'São Gonçalo',19),
+ (17,'Maceió',2),
+ (18,'Duque de Caxias',19),
+ (19,'Nova Iguaçu',19),
+ (20,'São Bernardo do Campo',25),
+ (21,'Natal',20),
+ (22,'Teresina',18),
+ (23,'Campo Grande',12),
+ (24,'Osasco',25),
+ (25,'João Pessoa',15),
+ (26,'Jaboatão dos Guararapes',17),
+ (27,'Santo André',25),
+ (28,'Uberlândia',13),
+ (29,'Contagem',13),
+ (30,'São José dos Campos',25),
+ (31,'Feira de Santana',5),
+ (32,'Sorocaba',25),
+ (33,'Ribeirão Preto',25),
+ (34,'Cuiabá',11),
+ (35,'Aracaju',26),
+ (36,'Juiz de Fora',13),
+ (37,'Londrina',16),
+ (38,'Belford Roxo',19),
+ (39,'Ananindeua',14),
+ (40,'Aparecida de Goiânia',9),
+ (41,'Joinville',24),
+ (42,'Niterói',19),
+ (43,'São João do Meriti',19),
+ (44,'Campo dos Goytacazes',19),
+ (45,'Betim',13),
+ (46,'Santos',25),
+ (47,'São José do Rio Preto',25),
+ (48,'Mauá',25),
+ (49,'Vila Velha',8),
+ (50,'Caxias do Sul',21),
+ (51,'Pato Branco',16),
+ (52,'Francisco Beltrão',16),
+ (53,'Dois Vizinhos',16),
+ (54,'Cascavel',16),
+ (55,'Toledo',16);
+
+INSERT INTO pessoas(idpessoa, idcidade, nome, cpf, rg, endereco, numero, bairro, complemento, cep, telefonefixo, telefonecelular, email, sexo) VALUES
+(1,54,'Vilson Melo Pereira','123.456.789-00', '1.234.456-8','Linha Ipiranga',11,'Sede Alvorada','sitio','85822-000', '(45)3271-1198', '(45)1233-5867','j0nasp3r@gmail.com', 'M'),
+(2,53,'Jonas Pereira','035.685.259-84', '9.451.447-9','Paulo Antonio de Godoy',118,'Da Luz','Sobrado 03','85660-000', '(45)9135-2525', '(46)8400-8667','j0nasp3r@gmail.com', 'M'),
+(3,53,'Joao da Silva','098.765.432-10', '8.765.432-1','BR-467',30,'Sede Alvorada','Km 30','85822-000', '(45)3271-1230', '','joao@gmail.com', 'M');
+
+INSERT INTO empresas(idempresa, idcidade, nome, cnpj, endereco, numero, bairro, complemento, cep, telefonefixo, telefonecelular, email) VALUES
+ (1,54,'Coopavel', '059.394.586/0001-48','BR-467',30,'Sede ALvorada','km 30','85822-000','(45)3271-1230','','coopavel@coopavel.com.br');
+
+INSERT INTO classetoxicologicas(idclassetox, calsse, descricao) VALUES
+(1, 1,'Classe I - extremamente tóxico – cor vermelha'),
+(2, 2,'Classe II - altamente tóxico – cor amarela'),
+(3, 3,'Classe III - medianamente tóxico – cor azul'),
+(4, 4, 'Classe IV – pouco tóxico – cor verde');
+
+INSERT INTO embalagens(idembalagem, descricao) VALUES 
+(1,'embalagem de 01 litro');
+(2,'embalagem de 10 litros');
+(3,'embalagem de 20 litros');
+(4,'embalagem aluminisada');
+(5,'embalagem de papel');
+(6,'embalagem de plástico');
+'
+INSERT INTO public.produtos(idproduto, idclassetox, idembalagem, nome, descricao)
+(1, 4, 1, 'Roundup Glifosato','HERBICIDA, de contato, do grupo químico organoarsênico');
+(2, 3, 2, 'RMSMA 720','Herbicida (glicina substituída). Uso exclusivamente agrícola.');
+(3, 2, 3, 'ROUNDUP READY','herbicida de amplo espectro para controle de plantas infestantes');
+(4, 1, 4, 'TOCHA','herbicida controle pósemergente de plantas daninhas e na dessecação de culturas';
+
+INSERT INTO armazenagens(idarmazenar, idempresa, idproduto, idpessoa, nf, data, qtde, valor, flagdevolucao) VALUES 
+(1, 1, 1, 1, 2323, '2016-09-15', 5,5029, 'N');
+(2, 1, 2, 2, 2323, '2016-09-15', 2,3467, 'N');
+(3, 1, 3, 3, 2323, '2016-09-15', 5,47895, 'N');
+(4, 1, 4, 1, 2323, '2016-09-15', 7,4069, 'N');
+

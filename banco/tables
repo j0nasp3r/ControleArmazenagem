@@ -1,0 +1,89 @@
+﻿CREATE TABLE estados (
+  IdEstado integer NOT NULL ,
+  Nome varchar(50) NOT NULL DEFAULT '',
+  Sigla char(2) NOT NULL DEFAULT '',
+  CONSTRAINT PK_Estados PRIMARY KEY (IdEstado)
+);
+
+CREATE TABLE cidades (
+  IdCIdade integer NOT NULL,
+  IdEstado integer NOT NULL,
+  Nome varchar(50) NOT NULL DEFAULT '',
+  CONSTRAINT PK_Cidades PRIMARY KEY (IdCidade),
+  CONSTRAINT FK_Cidades_IdEstado FOREIGN KEY (IdEstado) REFERENCES estados (IdEstado)
+);
+
+CREATE TABLE pessoas (
+  IdPessoa integer NOT NULL ,
+  IdCidade integer NOT NULL,
+  Nome varchar(100) NOT NULL DEFAULT '',
+  CPF varchar(14) NOT NULL DEFAULT '',
+  RG varchar(11) NOT NULL DEFAULT '',
+  Endereco varchar(100) NOT NULL DEFAULT '',
+  Numero integer NOT NULL,
+  Bairro varchar(50) NOT NULL DEFAULT '',
+  Complemento varchar(50) NOT NULL DEFAULT '',
+  CEP varchar(10) NOT NULL DEFAULT '',
+  TelefoneFixo varchar(14) NOT NULL DEFAULT '',
+  TelefoneCelular varchar(14) NOT NULL DEFAULT '',
+  Email varchar(50) DEFAULT NULL,
+  Sexo char(1) NOT NULL DEFAULT 'M',
+  CONSTRAINT PK_Pessoas PRIMARY KEY (IdPessoa),
+  CONSTRAINT FK_Pessoas_IdCidade FOREIGN KEY (IdCidade) REFERENCES cidades (IdCIdade)
+);
+
+CREATE TABLE empresas (
+  IdEmpresa integer NOT NULL,
+  IdCidade integer NOT NULL,
+  Nome varchar(100) NOT NULL DEFAULT '',
+  CNPJ varchar(18) NOT NULL DEFAULT '',
+  Endereco varchar(100) NOT NULL DEFAULT '',
+  Numero integer NOT NULL,
+  Bairro varchar(50) NOT NULL DEFAULT '',
+  Complemento varchar(50) NOT NULL DEFAULT '',
+  CEP varchar(9) NOT NULL DEFAULT '',
+  TelefoneFixo varchar(14) NOT NULL DEFAULT '',
+  TelefoneCelular varchar(14) NOT NULL DEFAULT '',
+  Email varchar(50) DEFAULT NULL,
+  CONSTRAINT PK_Empresas PRIMARY KEY (IdEmpresa),
+  CONSTRAINT FK_Empresas_IdCidade FOREIGN KEY (IdCidade) REFERENCES cidades (IdCIdade)
+);
+
+CREATE TABLE classeToxicologicas (
+  IdClasseTox integer NOT NULL,
+  Calsse integer NOT NULL,
+  Descricao varchar(100) NOT NULL DEFAULT '',
+  CONSTRAINT PK_ClasseToxicologicas PRIMARY KEY (IdClasseTox)
+);
+
+CREATE TABLE embalagens (
+  IdEmbalagem integer not null,
+  descricao varchar(50) not null,
+  CONSTRAINT PK_Embalagens PRIMARY KEY (IdEmbalagem)
+);
+
+CREATE TABLE produtos (
+  IdProduto integer NOT NULL,
+  IdClasseTox integer NOT NULL,
+  IdEmbalagem integer NOT NULL,
+  Nome varchar(50) NOT NULL DEFAULT '',
+  Descricao varchar(100) NOT NULL DEFAULT '',
+  CONSTRAINT PK_Produtos PRIMARY KEY (IdProduto),
+  CONSTRAINT FK_Produtos_IdClasseTox FOREIGN KEY (IdClasseTox) REFERENCES classeToxicologicas (IdClasseTox)
+);
+
+CREATE TABLE armazenagens (
+  IdArmazenar integer NOT NULL,
+  IdEmpresa integer NOT NULL,
+  IdProduto integer NOT NULL,
+  IdPessoa integer NOT NULL,
+  NF integer NOT NULL,
+  data date NOT NULL,
+  qtde integer not null,
+  valor float NOT NULL,
+  flagDevolucao char(1) not null,
+  CONSTRAINT PK_Armazenagens PRIMARY KEY (IdArmazenar),
+  CONSTRAINT FK_Armazenagens_IdEmpresa FOREIGN KEY (IdEmpresa) REFERENCES empresas (IdEmpresa),
+  CONSTRAINT FK_Armazenagens_IdPessoa FOREIGN KEY (IdPessoa) REFERENCES pessoas (IdPessoa),
+  CONSTRAINT FK_Armazenagens_IdProduto FOREIGN KEY (IdProduto) REFERENCES produtos (IdProduto)
+);
