@@ -1,4 +1,4 @@
-INSERT INTO estados (IdEstado, IdPais,Nome,Sigla) VALUES 
+﻿INSERT INTO estados (IdEstado, Nome, Sigla) VALUES 
  (1,'Acre','AC'),
  (2,'Alagoas','AL'),
  (3,'Amapá','AP'),
@@ -92,29 +92,23 @@ INSERT INTO pessoas(idpessoa, idcidade, nome, cpf, rg, endereco, numero, bairro,
 INSERT INTO empresas(idempresa, idcidade, nome, cnpj, endereco, numero, bairro, complemento, cep, telefonefixo, telefonecelular, email) VALUES
  (1,54,'Coopavel', '059.394.586/0001-48','BR-467',30,'Sede ALvorada','km 30','85822-000','(45)3271-1230','','coopavel@coopavel.com.br');
 
-INSERT INTO classetoxicologicas(idclassetox, calsse, descricao) VALUES
-(1, 1,'Classe I - extremamente tóxico – cor vermelha'),
-(2, 2,'Classe II - altamente tóxico – cor amarela'),
-(3, 3,'Classe III - medianamente tóxico – cor azul'),
-(4, 4, 'Classe IV – pouco tóxico – cor verde');
-
 INSERT INTO embalagens(idembalagem, descricao) VALUES 
-(1,'embalagem de 01 litro');
-(2,'embalagem de 10 litros');
-(3,'embalagem de 20 litros');
-(4,'embalagem aluminisada');
-(5,'embalagem de papel');
+(1,'embalagem de 01 litro'),
+(2,'embalagem de 10 litros'),
+(3,'embalagem de 20 litros'),
+(4,'embalagem aluminisada'),
+(5,'embalagem de papel'),
 (6,'embalagem de plástico');
-'
-INSERT INTO public.produtos(idproduto, idclassetox, idembalagem, nome, descricao)
-(1, 4, 1, 'Roundup Glifosato','HERBICIDA, de contato, do grupo químico organoarsênico');
-(2, 3, 2, 'RMSMA 720','Herbicida (glicina substituída). Uso exclusivamente agrícola.');
-(3, 2, 3, 'ROUNDUP READY','herbicida de amplo espectro para controle de plantas infestantes');
-(4, 1, 4, 'TOCHA','herbicida controle pósemergente de plantas daninhas e na dessecação de culturas';
 
-INSERT INTO armazenagens(idarmazenar, idempresa, idproduto, idpessoa, nf, data, qtde, valor, flagdevolucao) VALUES 
-(1, 1, 1, 1, 2323, '2016-09-15', 5,5029, 'N');
-(2, 1, 2, 2, 2323, '2016-09-15', 2,3467, 'N');
-(3, 1, 3, 3, 2323, '2016-09-15', 5,47895, 'N');
-(4, 1, 4, 1, 2323, '2016-09-15', 7,4069, 'N');
+INSERT INTO produtos(idproduto, idembalagem, nome, descricao, ClasseTox) VALUES
+(1, 1, 'Roundup Glifosato','HERBICIDA, de contato, do grupo químico organoarsênico','Classe I - extremamente tóxico – cor vermelha'),
+(2, 2, 'RMSMA 720','Herbicida (glicina substituída). Uso exclusivamente agrícola.','Classe II - altamente tóxico – cor amarela'),
+(3, 3, 'ROUNDUP READY','herbicida de amplo espectro para controle de plantas infestantes','Classe III - medianamente tóxico – cor azul'),
+(4, 4, 'TOCHA','herbicida controle pósemergente de plantas daninhas e na dessecação de culturas','Classe IV – pouco tóxico – cor verde');
+
+INSERT INTO devolucao(idDevolucao, idempresa, idproduto, idpessoa, nf, data, quantidade, valor) VALUES 
+(1, 1, 1, 1, 2323, '2016-09-15', 5,5029),
+(2, 1, 2, 2, 2323, '2016-09-15', 2,3467),
+(3, 1, 3, 3, 2323, '2016-09-15', 5,47895),
+(4, 1, 4, 1, 2323, '2016-09-15', 7,4069);
 

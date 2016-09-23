@@ -20,7 +20,7 @@ public class Conexao {
     public static Connection getConexao() {
         if (conexao == null) {
             try {
-                conexao = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/RecAgro", "postgres", "123456");
+                conexao = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/ControleEmbalagens", "postgres", "123456");
             } catch (SQLException ex) {
                 System.out.println("Erro conexão banco de dados" + ex);
             }

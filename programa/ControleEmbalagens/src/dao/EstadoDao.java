@@ -26,7 +26,7 @@ public class EstadoDao {
             + "idEstado, nome, sigla"
             + "  VALUES ((SELECT COALESCE(max(idestado)+1,1) FROM estados),?,?);";
     static String SELECTALL = "SELECT idEstado, nome, sigla "
-            + " FROM estados order by idEstado;";
+            + "FROM estados order by idEstado;";
     static String UPDATE = "UPDATE estados SET idEstado = ?, nome = ?, sigla = ?, "
             + "WHERE idEstado = ? ;";
     static String DELETE = "DELETE FROM estados  WHERE idEstado = ?;";
