@@ -23,8 +23,10 @@ public class Principal extends javax.swing.JFrame {
         this.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
     }
 
+    CadastroPessoa telaCadPessoas;
     CadastroEmpresa telaCadEmpresa;
     CadastroEstados telaCadEstados;
+    CadastroCidades telaCadCidades;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -40,9 +42,10 @@ public class Principal extends javax.swing.JFrame {
         jmArquivos = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jmCadastro = new javax.swing.JMenu();
-        jmiPessoas = new javax.swing.JMenuItem();
-        jmiEstados = new javax.swing.JMenuItem();
+        jmiCidades = new javax.swing.JMenuItem();
         jmiEmpresas = new javax.swing.JMenuItem();
+        jmiEstados = new javax.swing.JMenuItem();
+        jmiPessoas = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,13 +63,21 @@ public class Principal extends javax.swing.JFrame {
 
         jmCadastro.setText("Cadastros");
 
-        jmiPessoas.setText("Pessoas");
-        jmiPessoas.addActionListener(new java.awt.event.ActionListener() {
+        jmiCidades.setText("Cidades");
+        jmiCidades.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiPessoasActionPerformed(evt);
+                jmiCidadesActionPerformed(evt);
             }
         });
-        jmCadastro.add(jmiPessoas);
+        jmCadastro.add(jmiCidades);
+
+        jmiEmpresas.setText("Empresas");
+        jmiEmpresas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiEmpresasActionPerformed(evt);
+            }
+        });
+        jmCadastro.add(jmiEmpresas);
 
         jmiEstados.setText("Estados");
         jmiEstados.addActionListener(new java.awt.event.ActionListener() {
@@ -76,13 +87,13 @@ public class Principal extends javax.swing.JFrame {
         });
         jmCadastro.add(jmiEstados);
 
-        jmiEmpresas.setText("Empresas");
-        jmiEmpresas.addActionListener(new java.awt.event.ActionListener() {
+        jmiPessoas.setText("Pessoas");
+        jmiPessoas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiEmpresasActionPerformed(evt);
+                jmiPessoasActionPerformed(evt);
             }
         });
-        jmCadastro.add(jmiEmpresas);
+        jmCadastro.add(jmiPessoas);
 
         jMenuBar1.add(jmCadastro);
 
@@ -103,7 +114,12 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jmiPessoasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPessoasActionPerformed
-        new CadastroPessoa().setVisible(true);
+        if (telaCadPessoas == null) {
+            telaCadPessoas = new CadastroPessoa();
+        }
+        jdpPrincipal.add(telaCadPessoas);
+        telaCadPessoas.setVisible(true);
+        centralizaForm(telaCadPessoas);
     }//GEN-LAST:event_jmiPessoasActionPerformed
 
     private void jmiEmpresasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiEmpresasActionPerformed
@@ -127,6 +143,15 @@ public class Principal extends javax.swing.JFrame {
         telaCadEstados.setVisible(true);
         centralizaForm(telaCadEstados);
     }//GEN-LAST:event_jmiEstadosActionPerformed
+
+    private void jmiCidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiCidadesActionPerformed
+        if (telaCadCidades == null) {
+            telaCadCidades = new CadastroCidades();
+        }
+        jdpPrincipal.add(telaCadCidades);
+        telaCadEstados.setVisible(true);
+        centralizaForm(telaCadCidades);
+    }//GEN-LAST:event_jmiCidadesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,6 +194,7 @@ public class Principal extends javax.swing.JFrame {
     public static javax.swing.JDesktopPane jdpPrincipal;
     private javax.swing.JMenu jmArquivos;
     private javax.swing.JMenu jmCadastro;
+    private javax.swing.JMenuItem jmiCidades;
     private javax.swing.JMenuItem jmiEmpresas;
     private javax.swing.JMenuItem jmiEstados;
     private javax.swing.JMenuItem jmiPessoas;

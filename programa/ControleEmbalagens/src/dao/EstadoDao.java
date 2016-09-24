@@ -22,12 +22,11 @@ public class EstadoDao {
     Statement st;
     PreparedStatement prepst;
 
-    static String INSERT = "INSERT INTO estados("
-            + "idEstado, nome, sigla"
-            + "  VALUES ((SELECT COALESCE(max(idestado)+1,1) FROM estados),?,?);";
+    static String INSERT = "INSERT INTO estados(idEstado, nome, sigla) "
+            + "VALUES ((SELECT COALESCE(max(idEstado)+1,1) FROM estados),?,?);";
     static String SELECTALL = "SELECT idEstado, nome, sigla "
             + "FROM estados order by idEstado;";
-    static String UPDATE = "UPDATE estados SET idEstado = ?, nome = ?, sigla = ?, "
+    static String UPDATE = "UPDATE estados SET idEstado = ?, nome = ?, sigla = ? "
             + "WHERE idEstado = ? ;";
     static String DELETE = "DELETE FROM estados  WHERE idEstado = ?;";
     
@@ -39,14 +38,12 @@ public class EstadoDao {
         int id = 0;
         try {
             PreparedStatement preparedStatement = Conexao.getConexao().prepareStatement(INSERT);
-            preparedStatement.setInt(1, estado.getIdEstado());
-            preparedStatement.setString(2, estado.getNome());
-            preparedStatement.setString(3, estado.getSigla());
+            preparedStatement.setString(1, estado.getNome());
+            preparedStatement.setString(2, estado.getSigla());
             preparedStatement.execute();
             return true;
         } catch (SQLException ex) {
-            System.out.println("Problema ao inserir Cadastro Estado: " + ex);
-            JOptionPane.showMessageDialog(null, "Erro:" + ex);
+            JOptionPane.showMessageDialog(null, "Problema ao inserir Cadastro Estado:" + ex);
         }
         return false;
     }
@@ -56,6 +53,7 @@ public class EstadoDao {
 
         try {
             PreparedStatement preparedStatement = Conexao.getConexao().prepareStatement(SELECTALL);
+            System.out.println(""+ preparedStatement.toString());
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
@@ -80,12 +78,12 @@ public class EstadoDao {
             preparedStatement.setInt(1, estado.getIdEstado());
             preparedStatement.setString(2, estado.getNome());
             preparedStatement.setString(3, estado.getSigla());
-//            System.out.println(""+ preparedStatement.toString());
+            preparedStatement.setInt(4, estado.getIdEstado());
+            //System.out.println(""+ preparedStatement.toString());
             preparedStatement.execute();
             return true;
         } catch (Exception ex) {
-            System.out.println("Problema ao fazer update do update do cadastro de estado: " + ex);
-            JOptionPane.showMessageDialog(null, "Erro:" + ex);
+            JOptionPane.showMessageDialog(null, "Problema ao fazer update do update do cadastro de estado:" + ex);
         }
         return false;
     }
@@ -97,8 +95,7 @@ public class EstadoDao {
             preparedStatement.execute();
             return true;
         } catch (Exception ex) {
-            System.out.println("Problema ao deletar o estado do cadastro estado: " + ex);
-            JOptionPane.showMessageDialog(null, "Erro:" + ex);
+            JOptionPane.showMessageDialog(null, "Problema ao deletar o estado do cadastro estado:" + ex);
         }
         return false;
     }

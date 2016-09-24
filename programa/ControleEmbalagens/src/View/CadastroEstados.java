@@ -18,16 +18,16 @@ import javax.swing.table.DefaultTableModel;
  * @author j0nas
  */
 public class CadastroEstados extends javax.swing.JInternalFrame {
+
     DefaultTableModel modeloTabela;
     Estado estado;
     EstadoController ec;
     ArrayList<Estado> listaEstados;
-        
+
     public CadastroEstados() {
         initComponents();
-        //this.setLocationRelativeTo(null);
         this.setTitle("Cadastro de Estados");
-        //desativaBotao();
+        desativaBotao();
         modeloTabela();
         exibirDadosCadastros();
     }
@@ -55,6 +55,8 @@ public class CadastroEstados extends javax.swing.JInternalFrame {
         tblEstados = new javax.swing.JTable();
         btnSair = new javax.swing.JButton();
 
+        setClosable(true);
+
         jLabel1.setText("Nome:");
 
         jLabel2.setText("Sigla:");
@@ -65,14 +67,12 @@ public class CadastroEstados extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(4, 4, 4)
-                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtSigla, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(4, 4, 4)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtSigla, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -88,7 +88,7 @@ public class CadastroEstados extends javax.swing.JInternalFrame {
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
-        btnSalvar.setText("Salvar");
+        btnSalvar.setText("Gravar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
@@ -142,6 +142,11 @@ public class CadastroEstados extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblEstados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblEstadosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblEstados);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -206,7 +211,7 @@ public class CadastroEstados extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        exibirDadosCadastros();
+        excluirDados();
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
@@ -216,6 +221,10 @@ public class CadastroEstados extends javax.swing.JInternalFrame {
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnSairActionPerformed
+
+    private void tblEstadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEstadosMouseClicked
+        carregaDadosCadastro();
+    }//GEN-LAST:event_tblEstadosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -233,7 +242,7 @@ public class CadastroEstados extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtSigla;
     // End of variables declaration//GEN-END:variables
-    
+
     private void desativaBotao() {
         this.setFrameIcon(null);
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
@@ -242,21 +251,28 @@ public class CadastroEstados extends javax.swing.JInternalFrame {
         norteh.validate();
         norteh.repaint();
     }
-    
+/*
+    DefaultTableModel modeloTabela = new DefaultTableModel(new Object[]{
+        "Código", "Nome", "Sigla"}, 0) {
+        public boolean isCellEditable(int rowIndex, int mColIndex) {
+            return false;
+        }
+    };*/
+
     private void modeloTabela() {
         modeloTabela = new DefaultTableModel();
         modeloTabela.addColumn("Códido");
         modeloTabela.addColumn("Nome");
         modeloTabela.addColumn("Sigla");
         tblEstados.setModel(modeloTabela);
-        tblEstados.setAutoResizeMode(tblEstados.AUTO_RESIZE_OFF);
         ajustaTamanhoColunaTabela();
+        //modeloTabela.getDataVector().removeAllElements();
     }
 
     private void ajustaTamanhoColunaTabela() {
         tblEstados.getColumnModel().getColumn(0).setPreferredWidth(60);//codigo
         tblEstados.getColumnModel().getColumn(1).setPreferredWidth(200);//nome
-        tblEstados.getColumnModel().getColumn(2).setPreferredWidth(60);//cpf
+        tblEstados.getColumnModel().getColumn(2).setPreferredWidth(50);//cpf
     }
 
     private void limparCampos(boolean pergunta) {
@@ -282,13 +298,19 @@ public class CadastroEstados extends javax.swing.JInternalFrame {
     }
 
     private int getIdPessoaSelecionado() {
-        return Integer.parseInt(modeloTabela.getValueAt(tblEstados.getSelectedRow(), 0).toString());
+        int retorno = 0;
+        retorno = Integer.parseInt(modeloTabela.getValueAt(tblEstados.getSelectedRow(), 0).toString());
+        //return Integer.parseInt(modeloTabela.getValueAt(tblEstados.getSelectedRow(), 0).toString());
+        return retorno;
     }
 
     public void exibirDadosCadastros() {
         modeloTabela();
         ArrayList<Estado> lista;
-        if (ec == null) ec = new EstadoController();
+        if (ec == null) {
+            ec = new EstadoController();
+        }
+        ec = new EstadoController();
         lista = ec.buscaCadastroEstado();
 
         for (int x = 0; x < lista.size(); x++) {
@@ -301,27 +323,49 @@ public class CadastroEstados extends javax.swing.JInternalFrame {
     private void carregaDadosCadastro() {
         int id = getIdPessoaSelecionado();
         for (int x = 0; x < listaEstados.size(); x++) {
-            Estado p = listaEstados.get(x);
-            estado = p;
-            break;
+            Estado e = listaEstados.get(x);
+            if (id == e.getIdEstado()) {
+                txtNome.setText(e.getNome());
+                txtSigla.setText(e.getSigla());
+                estado = e;
+                break;
+            }
         }
-    }   
-    
+    }
+
     private void gravarDados() {
         if (estado == null) {
             estado = new Estado();
-        }
-        estado.setIdEstado(getIdPessoaSelecionado());
+        }/*
+        if (getIdPessoaSelecionado() == ){
+            estado.setIdEstado(0);
+        }else{
+            estado.setIdEstado(getIdPessoaSelecionado());
+        }*/
+        
         estado.setNome(txtNome.getText());
         estado.setSigla(txtSigla.getText());
 
         ec = new EstadoController();
         if (ec.insereCadastroEstado(estado)) {
             JOptionPane.showMessageDialog(this, "Cadastro Gravadao com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
-            limparCampos(false);
+            limparCampos(true);
         } else {
             JOptionPane.showMessageDialog(this, "Problema ao gravar dados", "Erro", JOptionPane.ERROR_MESSAGE);
+            limparCampos(false);
+        }
+        exibirDadosCadastros();
+    }
+
+    public void excluirDados() {
+        if (0 == JOptionPane.showConfirmDialog(rootPane, "Deseja excluir essas informações?", "Excluir", JOptionPane.YES_NO_OPTION)) {
+            if (ec == null) {
+                ec = new EstadoController();
+            }
+
+            ec.excluirCadastroEstado(getIdPessoaSelecionado());
             limparCampos(true);
+            exibirDadosCadastros();
         }
     }
 }
