@@ -38,7 +38,7 @@ public class EstadoController {
         return estadoDao.excluirCadastroEstado(id);
     }
     
-    public String buscarRetornoPesqEmp(int idEstado) {
-        return estadoDao.buscarRetornoPesqEmp(idEstado);
+    public String buscarSiglaEstado(int idCidade) {
+        return estadoDao.buscarSiglaEstado(idCidade);
     }
 }

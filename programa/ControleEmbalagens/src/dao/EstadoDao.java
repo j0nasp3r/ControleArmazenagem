@@ -30,7 +30,7 @@ public class EstadoDao {
             + "WHERE idEstado = ? ;";
     static String DELETE = "DELETE FROM estados  WHERE idEstado = ?;";
     
-    static String SELECretornoEstadoPesqEmp = "SELECT sigla FROM estados "
+    static String SELECbuscaSigla = "SELECT sigla FROM estados "
             + "INNER JOIN cidades USING (idEstado) WHERE idCidade = ?;";
 
     public boolean insereCadastroEstado(Estado estado) {
@@ -100,22 +100,22 @@ public class EstadoDao {
         return false;
     }
 
-    public String buscarRetornoPesqEmp(int idEstado) {
-        String estado = "";
+    public String buscarSiglaEstado(int idCidade) {
+        String sigla = "";
         try {
-            PreparedStatement preparedStatement = Conexao.getConexao().prepareStatement(SELECretornoEstadoPesqEmp);
-            preparedStatement.setInt(1, idEstado);
+            PreparedStatement preparedStatement = Conexao.getConexao().prepareStatement(SELECbuscaSigla);
+            preparedStatement.setInt(1, idCidade);
             //System.out.println("" + preparedStatement.toString());
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
-                estado = rs.getString("sigla");
+                sigla = rs.getString("sigla");
             }
 
         } catch (Exception ex) {
             System.out.println("Problema ao carregar cadastro de cidades : " + ex);
             JOptionPane.showMessageDialog(null, "Erro:" + ex);
         }
-        return estado;
+        return sigla;
     }
 }

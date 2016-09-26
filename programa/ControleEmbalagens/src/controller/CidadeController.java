@@ -43,7 +43,7 @@ public class CidadeController {
         return cidadeDao.buscaEstadoCidade(estado);
     }
 
-    public String buscarRetornoPesqEmp(int idCidade) {
-        return cidadeDao.buscarRetornoPesqEmp(idCidade);
+    public String buscarCidade(int idCidade) {
+        return cidadeDao.buscarCidade(idCidade);
     }
 }

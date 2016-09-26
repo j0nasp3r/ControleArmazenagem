@@ -294,7 +294,7 @@ public class CadastroEmpresa extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnSalvar.setText("Salvar");
+        btnSalvar.setText("Gravar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
@@ -554,14 +554,19 @@ public class CadastroEmpresa extends javax.swing.JInternalFrame {
         }
     }
 
-    public void recebeDados(int a, int b, int c, String d, String e, String f, String g, String h, String i, String j, String k, String l) {
+    public void recebeDados(int a, int b, int c, String d, String e, String f, String g, String h, String i, String j, String k, String l, String o) {
         idEmpresa = a;        //a idEmpresa
         idCidade = b;         //b idCIdade
         txtNumero.setText(String.valueOf(c));
+        
         CidadeController cc = new CidadeController();
-        jcbEstado.addItem(cc.buscarRetornoPesqEmp(b));
+        jcbCidade.addItem(cc.buscarCidade(b));
+        
         EstadoController ec = new EstadoController();
-        jcbCidade.addItem(ec.buscarRetornoPesqEmp(idCidade));
+        jcbEstado.removeAllItems();
+        jcbEstado.addItem(o);
+        carregaEstado();
+        
         txtNome.setText(d);
         txtCnpj.setText(e);
         txtEndereco.setText(f);

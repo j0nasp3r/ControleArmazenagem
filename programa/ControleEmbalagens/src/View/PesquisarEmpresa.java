@@ -6,7 +6,9 @@
 package View;
 
 import Model.Empresa;
+import controller.CidadeController;
 import controller.EmpresaController;
+import controller.EstadoController;
 import java.awt.Container;
 import java.util.ArrayList;
 import javax.swing.JDesktopPane;
@@ -21,8 +23,9 @@ import javax.swing.table.DefaultTableModel;
 public class PesquisarEmpresa extends javax.swing.JInternalFrame {
 
     EmpresaController ec;
+    EstadoController eco;
+    CidadeController cc;
     CadastroEmpresa enviaDados;
-    DefaultTableModel modeloTabela;
     Empresa empresa;
     ArrayList<Empresa> listaEmpresas;
     Principal telaPrincipal;
@@ -324,7 +327,15 @@ public class PesquisarEmpresa extends javax.swing.JInternalFrame {
         norteh.repaint();
     }
 
-    private void modeloTabela() {
+    DefaultTableModel modeloTabela = new DefaultTableModel(new Object[]{
+        "Código", "Nome", "CNPJ", "Endereco", "Numero", "Bairro", "Complemento",
+        "CEP", "Cidade", "Estado", "Tel Fixo", "Tel Celular", "E-mai"}, 0) {
+        public boolean isCellEditable(int rowIndex, int mColIndex) {
+            return false;
+        }
+    };
+
+    private void modeloTabela() {/*
         modeloTabela = new DefaultTableModel();
         modeloTabela.addColumn("Códido");
         modeloTabela.addColumn("Cidade");
@@ -337,25 +348,28 @@ public class PesquisarEmpresa extends javax.swing.JInternalFrame {
         modeloTabela.addColumn("CEP");
         modeloTabela.addColumn("Tel Fixo");
         modeloTabela.addColumn("Tel Celular");
-        modeloTabela.addColumn("E-mail");
+        modeloTabela.addColumn("E-mail");*/
         tblPesqEmpresa.setModel(modeloTabela);
         tblPesqEmpresa.setAutoResizeMode(tblPesqEmpresa.AUTO_RESIZE_OFF);
         ajustaTamanhoColunaTabela();
     }
 
     private void ajustaTamanhoColunaTabela() {
-        tblPesqEmpresa.getColumnModel().getColumn(0).setPreferredWidth(60);//codigo
-        tblPesqEmpresa.getColumnModel().getColumn(1).setPreferredWidth(60);//codigocidade
-        tblPesqEmpresa.getColumnModel().getColumn(2).setPreferredWidth(200);//nome
-        tblPesqEmpresa.getColumnModel().getColumn(3).setPreferredWidth(120);//cnpj
-        tblPesqEmpresa.getColumnModel().getColumn(4).setPreferredWidth(200);//endereco
-        tblPesqEmpresa.getColumnModel().getColumn(5).setPreferredWidth(60);//numero
-        tblPesqEmpresa.getColumnModel().getColumn(6).setPreferredWidth(150);//bairro
-        tblPesqEmpresa.getColumnModel().getColumn(7).setPreferredWidth(200);//complemento
-        tblPesqEmpresa.getColumnModel().getColumn(8).setPreferredWidth(80);//cep
-        tblPesqEmpresa.getColumnModel().getColumn(9).setPreferredWidth(110);//tel fixo
-        tblPesqEmpresa.getColumnModel().getColumn(10).setPreferredWidth(110);//tel cell
-        tblPesqEmpresa.getColumnModel().getColumn(11).setPreferredWidth(250);//email
+        tblPesqEmpresa.getColumnModel().getColumn(0).setMinWidth(0);
+        tblPesqEmpresa.getColumnModel().getColumn(0).setPreferredWidth(0);
+        tblPesqEmpresa.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblPesqEmpresa.getColumnModel().getColumn(1).setPreferredWidth(200);//nome
+        tblPesqEmpresa.getColumnModel().getColumn(2).setPreferredWidth(120);//cnpj
+        tblPesqEmpresa.getColumnModel().getColumn(3).setPreferredWidth(200);//endereco
+        tblPesqEmpresa.getColumnModel().getColumn(4).setPreferredWidth(60);//numero
+        tblPesqEmpresa.getColumnModel().getColumn(5).setPreferredWidth(150);//bairro
+        tblPesqEmpresa.getColumnModel().getColumn(6).setPreferredWidth(200);//complemento
+        tblPesqEmpresa.getColumnModel().getColumn(7).setPreferredWidth(80);//cep
+        tblPesqEmpresa.getColumnModel().getColumn(8).setPreferredWidth(150);//NomeCidade
+        tblPesqEmpresa.getColumnModel().getColumn(9).setPreferredWidth(60);//estado
+        tblPesqEmpresa.getColumnModel().getColumn(10).setPreferredWidth(110);//tel fixo
+        tblPesqEmpresa.getColumnModel().getColumn(11).setPreferredWidth(110);//tel cell
+        tblPesqEmpresa.getColumnModel().getColumn(12).setPreferredWidth(250);//email
     }
 
     private void limparPesquisa(boolean pergunta) {
@@ -364,6 +378,7 @@ public class PesquisarEmpresa extends javax.swing.JInternalFrame {
             if (0 == JOptionPane.showConfirmDialog(rootPane, "Deseja Limpar os dados?", "Limpar Campos", JOptionPane.YES_NO_OPTION)) {
                 txtPesqEmp.setText("");
                 txtPesqCnpj.setText("");
+                tblPesqEmpresa.removeAll();
                 exibirDadosCadastros();
                 limpar = true;
             } else {
@@ -372,20 +387,37 @@ public class PesquisarEmpresa extends javax.swing.JInternalFrame {
         }
     }
 
+    private String carregaEstado(int idCidade) {
+        String sigla;
+        if (eco == null) {
+            eco = new EstadoController();
+        }
+        return sigla = eco.buscarSiglaEstado(idCidade);
+    }
+
+    private String carregaCidade(int idCidade) {
+        String nomeCidade;
+        if (cc == null) {
+            cc = new CidadeController();
+        }
+        return nomeCidade = cc.buscarCidade(idCidade);
+    }
+
     private void insereDadosTabela(Empresa empresa) {
-        Object[] dados = new Object[15];
+        Object[] dados = new Object[13];
         dados[0] = empresa.getIdEmpresa();
-        dados[1] = empresa.getIdCidade();
-        dados[2] = empresa.getNome();
-        dados[3] = empresa.getCnpj();
-        dados[4] = empresa.getEndereco();
-        dados[5] = empresa.getNumero();
-        dados[6] = empresa.getBairro();
-        dados[7] = empresa.getComplemento();
-        dados[8] = empresa.getCep();
-        dados[9] = empresa.getTelfixo();
-        dados[10] = empresa.getTelcell();
-        dados[11] = empresa.getEmail();
+        dados[1] = empresa.getNome();
+        dados[2] = empresa.getCnpj();
+        dados[3] = empresa.getEndereco();
+        dados[4] = empresa.getNumero();
+        dados[5] = empresa.getBairro();
+        dados[6] = empresa.getComplemento();
+        dados[7] = empresa.getCep();
+        dados[8] = carregaCidade(empresa.getIdCidade());
+        dados[9] = carregaEstado(empresa.getIdCidade());
+        dados[10] = empresa.getTelfixo();
+        dados[11] = empresa.getTelcell();
+        dados[12] = empresa.getEmail();
         modeloTabela.addRow(dados);
     }
 
@@ -434,11 +466,12 @@ public class PesquisarEmpresa extends javax.swing.JInternalFrame {
     private void selecionaDadosTabela() {
         int id = getIdEmpresaSelecionado();
         int a = 0, b = 0, c = 0;
-        String d = "", e = "", f = "", g = "", h = "", i = "", j = "", k = "", l = "";
+        String d = "", e = "", f = "", g = "", h = "", i = "", j = "", k = "", l = "", m = "";
         for (Empresa p : listaEmpresas) {
             if (p.getIdEmpresa() == id) {
                 a = p.getIdEmpresa();
                 b = p.getIdCidade();
+                m = carregaEstado(p.getIdCidade());
                 d = p.getNome();
                 e = p.getCnpj();
                 f = p.getEndereco();
@@ -458,7 +491,7 @@ public class PesquisarEmpresa extends javax.swing.JInternalFrame {
         Principal.jdpPrincipal.add(enviaDados);
         enviaDados.setVisible(true);
         telaPrincipal.centralizaForm(enviaDados);
-        enviaDados.recebeDados(a, b, c, d, e, f, g, h, i, j, k, l);
+        enviaDados.recebeDados(a, b, c, d, e, f, g, h, i, j, k, l, m);
         this.dispose();
     }
 }

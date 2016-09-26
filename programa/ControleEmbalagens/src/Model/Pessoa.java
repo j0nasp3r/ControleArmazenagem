@@ -12,6 +12,7 @@ package Model;
 public class Pessoa {
 
     private int idPessoa;
+    private int idCidade;
     private String nome;
     private String cpf;
     private String rg;
@@ -19,8 +20,6 @@ public class Pessoa {
     private int numero;
     private String bairro;
     private String complemento;
-    private String cidade;
-    private String estado;
     private String cep;
     private String telfixo;
     private String telcell;
@@ -131,19 +130,11 @@ public class Pessoa {
         this.email = email;
     }
 
-    public String getCidade() {
-        return cidade;
+    public int getIdCidade() {
+        return idCidade;
     }
 
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setIdCidade(int idCidade) {
+        this.idCidade = idCidade;
     }
 }

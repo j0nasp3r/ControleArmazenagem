@@ -22,19 +22,18 @@ public class CidadeDao {
     Statement st;
     PreparedStatement prepst;
 
-    static String INSERT = "INSERT INTO cidades("
-            + "idCidade, idEstado, nome"
-            + "  VALUES ((SELECT COALESCE(max(idcidade)+1,1) FROM cidades),?,?);";
+    static String INSERT = "INSERT INTO cidades(idCidade, idEstado, nome "
+            + "VALUES ((SELECT COALESCE(max(idcidade)+1,1) FROM cidades),?,?);";
     static String SELECTALL = "SELECT idCidade, idEstado, nome"
             + " FROM cidades order by idCidade;";
-    static String UPDATE = "UPDATE cidades SET idCidade = ?, idEstado = ?, nome = ?, "
+    static String UPDATE = "UPDATE cidades SET idCidade = ?, idEstado = ?, nome = ? "
             + "WHERE idCidade = ? ;";
     static String DELETE = "DELETE FROM cidades  WHERE idCidade = ?;";
 
     static String SELECTestadoCidade = "SELECT a.nome FROM cidades a "
             + " INNER JOIN estados USING (idEstado) where estados.sigla = ?;";
 
-    static String SELECretornoCidadePesqEmp = "SELECT nome FROM cidades WHERE idCidade = ?;";
+    static String SELECbuscaCidade = "SELECT nome FROM cidades WHERE idCidade = ?;";
 
     //select a.nome, b.sigla from cidades a inner join estados b using (idEstado) where idCidade = 53
     public boolean insereCadastroCidade(Cidade cidade) {
@@ -42,9 +41,8 @@ public class CidadeDao {
         int id = 0;
         try {
             PreparedStatement preparedStatement = Conexao.getConexao().prepareStatement(INSERT);
-            preparedStatement.setInt(1, cidade.getIdCidade());
-            preparedStatement.setInt(2, cidade.getIdEstado());
-            preparedStatement.setString(3, cidade.getNome());
+            preparedStatement.setInt(1, cidade.getIdEstado());
+            preparedStatement.setString(2, cidade.getNome());
             preparedStatement.execute();
             return true;
         } catch (SQLException ex) {
@@ -58,11 +56,13 @@ public class CidadeDao {
         ArrayList<Cidade> lista = new ArrayList<Cidade>();
 
         try {
-            PreparedStatement preparedStatement = Conexao.getConexao().prepareStatement(SELECTestadoCidade);
+            PreparedStatement preparedStatement = Conexao.getConexao().prepareStatement(SELECTALL);
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
                 Cidade cidade = new Cidade();
+                cidade.setIdCidade(rs.getInt("idCidade"));
+                cidade.setIdEstado(rs.getInt("idEstado"));
                 cidade.setNome(rs.getString("nome"));
                 lista.add(cidade);
             }
@@ -81,6 +81,7 @@ public class CidadeDao {
             preparedStatement.setInt(1, cidade.getIdCidade());
             preparedStatement.setInt(2, cidade.getIdEstado());
             preparedStatement.setString(3, cidade.getNome());
+            preparedStatement.setInt(4, cidade.getIdCidade());
 //            System.out.println(""+ preparedStatement.toString());
             preparedStatement.execute();
             return true;
@@ -126,10 +127,10 @@ public class CidadeDao {
         return lista;
     }
 
-    public String buscarRetornoPesqEmp(int idCidade) {
+    public String buscarCidade(int idCidade) {
         String cidade = "";
         try {
-            PreparedStatement preparedStatement = Conexao.getConexao().prepareStatement(SELECretornoCidadePesqEmp);
+            PreparedStatement preparedStatement = Conexao.getConexao().prepareStatement(SELECbuscaCidade);
             preparedStatement.setInt(1, idCidade);
             //System.out.println("" + preparedStatement.toString());
             ResultSet rs = preparedStatement.executeQuery();

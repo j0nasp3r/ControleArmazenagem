@@ -1,31 +1,38 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View;
 
+import Model.Cidade;
+import Model.Estado;
 import Model.Pessoa;
+import controller.CidadeController;
+import controller.EmpresaController;
+import controller.EstadoController;
 import controller.PessoaController;
+import java.awt.Container;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author j0nas
  */
-public class PesquisarPessoa extends javax.swing.JFrame {
+public class PesquisarPessoa extends javax.swing.JInternalFrame {
 
     PessoaController pc;
+    EstadoController ec;
+    CidadeController cc;
     CadastroPessoa enviaDados;
-    DefaultTableModel modeloTabela;
     Pessoa pessoa;
     ArrayList<Pessoa> listaPessoas;
+    ArrayList<Estado> listaEstado;
+    Principal telaPrincipal;
+    String siglaEstado;
 
     public PesquisarPessoa() {
         initComponents();
-        this.setLocationRelativeTo(null);
+        this.setTitle("Consulta de Cadastro de Empresas");
+        desativaBotao();
         modeloTabela();
         pc = new PessoaController();
         exibirDadosCadastros();
@@ -40,39 +47,47 @@ public class PesquisarPessoa extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFrame1 = new javax.swing.JFrame();
-        jInternalFrame1 = new javax.swing.JInternalFrame();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtPesquisa = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPesqPessoa = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
         btnSelecionar = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
-        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
-        jFrame1.getContentPane().setLayout(jFrame1Layout);
-        jFrame1Layout.setHorizontalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        jFrame1Layout.setVerticalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setClosable(true);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jInternalFrame1.setResizable(true);
-        jInternalFrame1.setVisible(true);
-
-        jLabel1.setText("Pesquisa:");
+        jLabel1.setText("Pesquisar Nome:");
 
         txtPesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPesquisaKeyReleased(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         tblPesqPessoa.setAutoCreateRowSorter(true);
         tblPesqPessoa.setModel(new javax.swing.table.DefaultTableModel(
@@ -86,9 +101,20 @@ public class PesquisarPessoa extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblPesqPessoa.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tblPesqPessoa.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tblPesqPessoa.setAutoscrolls(false);
         jScrollPane1.setViewportView(tblPesqPessoa);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+        );
 
         btnSelecionar.setText("Selecionar");
         btnSelecionar.addActionListener(new java.awt.event.ActionListener() {
@@ -111,44 +137,28 @@ public class PesquisarPessoa extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
-        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
-        jInternalFrame1Layout.setHorizontalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
-                            .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                        .addGap(111, 111, 111)
-                        .addComponent(btnSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
-                        .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(90, 90, 90)
+                .addComponent(btnSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jInternalFrame1Layout.setVerticalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSelecionar)
                     .addComponent(btnLimpar)
                     .addComponent(btnCancelar))
-                .addGap(45, 45, 45))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -157,118 +167,83 @@ public class PesquisarPessoa extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jInternalFrame1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
-        limparPesquisa(true);
-    }//GEN-LAST:event_btnLimparActionPerformed
+    private void txtPesquisaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaKeyReleased
+        pesquisar();
+    }//GEN-LAST:event_txtPesquisaKeyReleased
 
     private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
         selecionaDadosTabela();
     }//GEN-LAST:event_btnSelecionarActionPerformed
 
-    private void txtPesquisaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaKeyReleased
-        pesquisar();
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        limparPesquisa(true);
+    }//GEN-LAST:event_btnLimparActionPerformed
 
-        /*
-                if ((jrbCredor.isSelected() == false) && (jrbDevedor.isSelected() == false)){
-            JOptionPane.showMessageDialog(null, "Você deve selecionar uma opção");
-            evt.consume();
-        }else if (jrbPesqCredor.isSelected() == true){
-            pesquisaDesc('C',txtPesquisa.getText().toLowerCase());   
-        }else {
-            pesquisaDesc('D',txtPesquisa.getText().toLowerCase());   
-        }
-         */
-    }//GEN-LAST:event_txtPesquisaKeyReleased
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PesquisarPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PesquisarPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PesquisarPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PesquisarPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PesquisarPessoa().setVisible(true);
-            }
-        });
-    }
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnSelecionar;
-    private javax.swing.JFrame jFrame1;
-    private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblPesqPessoa;
     private javax.swing.JTextField txtPesquisa;
     // End of variables declaration//GEN-END:variables
 
+    private void desativaBotao() {
+        this.setFrameIcon(null);
+        BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
+        Container norteh = (Container) ui.getNorthPane();
+        norteh.remove(0);
+        norteh.validate();
+        norteh.repaint();
+    }
+
+    DefaultTableModel modeloTabela = new DefaultTableModel(new Object[]{
+        "Código", "Nome", "CPF", "RG", "Endereco", "Numero", "Bairro", "Complemento",
+        "CEP", "Cidade", "Estado", "Tel Fixo", "Tel Celular", "E-mai", "Sexo"}, 0) {
+        public boolean isCellEditable(int rowIndex, int mColIndex) {
+            return false;
+        }
+    };
+
     private void modeloTabela() {
-        modeloTabela = new DefaultTableModel();
-        modeloTabela.addColumn("Códido");
-        modeloTabela.addColumn("Nome");
-        modeloTabela.addColumn("CPF");
-        modeloTabela.addColumn("RG");
-        modeloTabela.addColumn("Endereco");
-        modeloTabela.addColumn("Numero");
-        modeloTabela.addColumn("Bairro");
-        modeloTabela.addColumn("Complemento");
-        modeloTabela.addColumn("Cidade");
-        modeloTabela.addColumn("Estado");
-        modeloTabela.addColumn("CEP");
-        modeloTabela.addColumn("Tel Fixo");
-        modeloTabela.addColumn("Tel Celular");
-        modeloTabela.addColumn("E-mail");
-        modeloTabela.addColumn("Sexo");
         tblPesqPessoa.setModel(modeloTabela);
         tblPesqPessoa.setAutoResizeMode(tblPesqPessoa.AUTO_RESIZE_OFF);
         ajustaTamanhoColunaTabela();
     }
 
     private void ajustaTamanhoColunaTabela() {
-        tblPesqPessoa.getColumnModel().getColumn(0).setPreferredWidth(60);//codigo
+        tblPesqPessoa.getColumnModel().getColumn(0).setMinWidth(0);
+        tblPesqPessoa.getColumnModel().getColumn(0).setPreferredWidth(0);
+        tblPesqPessoa.getColumnModel().getColumn(0).setMaxWidth(0);
         tblPesqPessoa.getColumnModel().getColumn(1).setPreferredWidth(200);//nome
         tblPesqPessoa.getColumnModel().getColumn(2).setPreferredWidth(120);//cpf
         tblPesqPessoa.getColumnModel().getColumn(3).setPreferredWidth(90);//rg
@@ -276,13 +251,13 @@ public class PesquisarPessoa extends javax.swing.JFrame {
         tblPesqPessoa.getColumnModel().getColumn(5).setPreferredWidth(60);//numero
         tblPesqPessoa.getColumnModel().getColumn(6).setPreferredWidth(150);//bairro
         tblPesqPessoa.getColumnModel().getColumn(7).setPreferredWidth(200);//complemento
-        tblPesqPessoa.getColumnModel().getColumn(8).setPreferredWidth(150);//cidade
-        tblPesqPessoa.getColumnModel().getColumn(9).setPreferredWidth(60);//estado
-        tblPesqPessoa.getColumnModel().getColumn(10).setPreferredWidth(80);//cep
+        tblPesqPessoa.getColumnModel().getColumn(8).setPreferredWidth(80);//cep
+        tblPesqPessoa.getColumnModel().getColumn(9).setPreferredWidth(150);//NomeCidade
+        tblPesqPessoa.getColumnModel().getColumn(10).setPreferredWidth(60);//estado
         tblPesqPessoa.getColumnModel().getColumn(11).setPreferredWidth(110);//tel fixo
         tblPesqPessoa.getColumnModel().getColumn(12).setPreferredWidth(110);//tel cell
-        tblPesqPessoa.getColumnModel().getColumn(13).setPreferredWidth(250);//email
-        tblPesqPessoa.getColumnModel().getColumn(14).setPreferredWidth(40);//sexo
+        tblPesqPessoa.getColumnModel().getColumn(13).setPreferredWidth(40);//sexo
+        tblPesqPessoa.getColumnModel().getColumn(14).setPreferredWidth(250);//email
     }
 
     private void limparPesquisa(boolean pergunta) {
@@ -298,6 +273,22 @@ public class PesquisarPessoa extends javax.swing.JFrame {
         }
     }
 
+    private String carregaEstado(int idCidade) {
+        String sigla;
+        if (ec == null) {
+            ec = new EstadoController();
+        }
+        return sigla = ec.buscarSiglaEstado(idCidade);
+    }
+
+    private String carregaCidade(int idCidade) {
+        String nomeCidade;
+        if (cc == null) {
+            cc = new CidadeController();
+        }
+        return nomeCidade = cc.buscarCidade(idCidade);
+    }
+
     private void insereDadosTabela(Pessoa pessoa) {
         Object[] dados = new Object[15];
         dados[0] = pessoa.getIdPessoa();
@@ -308,35 +299,18 @@ public class PesquisarPessoa extends javax.swing.JFrame {
         dados[5] = pessoa.getNumero();
         dados[6] = pessoa.getBairro();
         dados[7] = pessoa.getComplemento();
-        dados[8] = pessoa.getCidade();
-        dados[9] = pessoa.getEstado();
-        dados[10] = pessoa.getCep();
+        dados[8] = pessoa.getCep();
+        dados[9] = carregaCidade(pessoa.getIdCidade());
+        dados[10] = carregaEstado(pessoa.getIdCidade());
         dados[11] = pessoa.getTelfixo();
         dados[12] = pessoa.getTelcell();
         dados[13] = pessoa.getSexo();
         dados[14] = pessoa.getEmail();
-
-        /*
-        dados[0] = pessoa.getNome();
-        dados[1] = pessoa.getCpf();
-        dados[2] = pessoa.getRg();
-        dados[3] = pessoa.getEndereco();
-        dados[4] = pessoa.getNumero();
-        dados[5] = pessoa.getBairro();
-        dados[6] = pessoa.getComplemento();
-        dados[7] = pessoa.getCidade();
-        dados[8] = pessoa.getEstado();
-        dados[9] = pessoa.getCep();
-        dados[10] = pessoa.getTelfixo();
-        dados[11] = pessoa.getTelcell();
-        dados[12] = pessoa.getEmail();
-        dados[13] = pessoa.getSexo();*/
         modeloTabela.addRow(dados);
     }
 
     private int getIdPessoaSelecionado() {
-        return Integer.parseInt(modeloTabela.getValueAt(
-                tblPesqPessoa.getSelectedRow(), 0).toString());
+        return Integer.parseInt(modeloTabela.getValueAt(tblPesqPessoa.getSelectedRow(), 0).toString());
     }
 
     public void exibirDadosCadastros() {
@@ -371,33 +345,35 @@ public class PesquisarPessoa extends javax.swing.JFrame {
 
     private void selecionaDadosTabela() {
         int id = getIdPessoaSelecionado();
-        int a = 0, b = 0;
-        char c = ' ';
-        String d = "", e = "", f = "", g = "", h = "", i = "", j = "", k = "", l = "", m = "", n = "", o = "";
+        int a = 0, b = 0, c = 0;
+        char d = ' ';
+        String e = "", f = "", g = "", h = "", i = "", j = "", k = "", l = "", m = "", n = "", o = "";
         for (Pessoa p : listaPessoas) {
             if (p.getIdPessoa() == id) {
                 a = p.getIdPessoa();
-                d = p.getNome();
-                e = p.getCpf();
-                f = p.getRg();
-                g = p.getEndereco();
-                b = p.getNumero();
-                h = p.getBairro();
-                i = p.getComplemento();
-                j = p.getCidade();
-                k = p.getEstado();
-                l = p.getCep();
-                m = p.getTelfixo();
-                n = p.getTelcell();
-                c = p.getSexo();
-                o = p.getEmail();
+                b = p.getIdCidade();
+                o = carregaEstado(p.getIdCidade());
+                c = p.getNumero();
+                d = p.getSexo();
+                e = p.getNome();
+                f = p.getCpf();
+                g = p.getRg();
+                h = p.getEndereco();
+                i = p.getBairro();
+                j = p.getComplemento();
+                k = p.getCep();
+                l = p.getTelfixo();
+                m = p.getTelcell();
+                n = p.getEmail();
                 break;
             }
         }
         if (enviaDados == null) {
             enviaDados = new CadastroPessoa();
         }
+        Principal.jdpPrincipal.add(enviaDados);
         enviaDados.setVisible(true);
+        telaPrincipal.centralizaForm(enviaDados);
         enviaDados.recebeDados(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o);
         this.dispose();
     }
